@@ -2,7 +2,7 @@ from functools import partial
 import numpy as np
 from scipy.integrate import quad
 
-from spectrum import density
+from spectrum import density, support
 
 
 def log_complexity_exponent(x, x1, kappa=0.5, b=1, b1=1, s_sq=1, s1_sq=1, constant=1):
@@ -38,6 +38,5 @@ def log_determinant(x, x1, kappa=0.5, b=1, b1=1):
     def quad_func(z):
         return np.log(np.abs(z - x)) * lsd(z)
 
-    lims = np.array([[-2 * b - x1, 2 * b - x1], [-2 * b1, 2 * b1]])
-    lims = [np.min(lims[:, 0]), np.max(lims[:, 1])]
-    return quad(quad_func, lims[0], lims[1])[0]
+    limits = support(x1, b, b1)
+    return quad(quad_func, limits[0], limits[1])[0]
