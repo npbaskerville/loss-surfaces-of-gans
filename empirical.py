@@ -2,7 +2,7 @@ from joblib import Parallel, delayed
 import numpy as np
 
 
-def sample_spectrum(dimension=500, x1=1, kappa=0.3, b=1, b1=1):
+def sample_spectrum(dimension=500, x1=1, kappa=0.5, b=1, b1=1):
     """
     Sample once from matrix distribution H with given dimension and parameters.
 

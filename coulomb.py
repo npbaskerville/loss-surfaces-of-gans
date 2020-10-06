@@ -38,6 +38,6 @@ def log_determinant(x, x1, kappa=0.5, b=1, b1=1):
     def quad_func(z):
         return np.log(np.abs(z - x)) * lsd(z)
 
-    lims = np.array([[-2 * b, 2 * b], [-2 * b1 + x1, 2 * b1 + x1]])
+    lims = np.array([[-2 * b - x1, 2 * b - x1], [-2 * b1, 2 * b1]])
     lims = [np.min(lims[:, 0]), np.max(lims[:, 1])]
     return quad(quad_func, lims[0], lims[1])[0]
