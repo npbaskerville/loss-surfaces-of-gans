@@ -6,23 +6,20 @@ DCGAN Tutorial, `Nathan Inkawhich <https://github.com/inkawhich>`
 """
 
 from __future__ import print_function
+
 # %matplotlib inline
 import argparse
 import os
+import pickle as pkl
 import random
-import torch
+
+import matplotlib.pyplot as plt
 import torch.nn as nn
-import torch.nn.parallel
-import torch.backends.cudnn as cudnn
 import torch.optim as optim
 import torch.utils.data
 import torchvision.datasets as dset
 import torchvision.transforms as transforms
 import torchvision.utils as vutils
-import numpy as np
-import matplotlib.pyplot as plt
-import matplotlib.animation as animation
-from IPython.display import HTML
 
 # Set random seed for reproducibility
 manualSeed = 999
@@ -71,7 +68,7 @@ torch.manual_seed(manualSeed)
 dataroot = "data/cifar100"
 
 # Number of workers for dataloader
-workers = 2
+workers = 6
 
 # Batch size during training
 batch_size = 128
@@ -101,12 +98,18 @@ lr = 0.0002
 # Beta1 hyperparam for Adam optimizers
 beta1 = 0.5
 
-# Number of GPUs available. Use 0 for CPU mode.
-ngpu = 1
-
 # Generator noise
-gen_noise_scale = 1
 
+
+parser = argparse.ArgumentParser()
+parser.add_argument("--sigma", type=float, default=1.)
+parser.add_argument("--figloc", type=str, default="figures")
+parser.add_argument("--ngpu", type=int, default=2)
+
+args = parser.parse_args()
+
+ngpu = args.ngpu
+gen_noise_scale = args.sigma
 ######################################################################
 # Data
 # ----
@@ -560,7 +563,10 @@ plt.plot(D_losses, label="D")
 plt.xlabel("iterations")
 plt.ylabel("Loss")
 plt.legend()
-plt.show()
+plt.savefig(os.path.join(args.figloc, "{:3f}.pdf".format(args.sigma)))
+
+with open(os.path.join(args.saveloc,  "{:3f}.pk".format(args.sigma)), "wb") as fout:
+    pkl.dump([D_losses, G_losses], fout)
 
 ######################################################################
 # **Visualization of G’s progression**
@@ -570,38 +576,6 @@ plt.show()
 # progression of G with an animation. Press the play button to start the
 # animation.
 #
-
-# %%capture
-fig = plt.figure(figsize=(8, 8))
-plt.axis("off")
-ims = [[plt.imshow(np.transpose(i, (1, 2, 0)), animated=True)] for i in img_list]
-ani = animation.ArtistAnimation(fig, ims, interval=1000, repeat_delay=1000, blit=True)
-
-HTML(ani.to_jshtml())
-
-######################################################################
-# **Real Images vs. Fake Images**
-#
-# Finally, lets take a look at some real images and fake images side by
-# side.
-#
-
-# Grab a batch of real images from the dataloader
-real_batch = next(iter(dataloader))
-
-# Plot the real images
-plt.figure(figsize=(15, 15))
-plt.subplot(1, 2, 1)
-plt.axis("off")
-plt.title("Real Images")
-plt.imshow(np.transpose(vutils.make_grid(real_batch[0].to(device)[:64], padding=5, normalize=True).cpu(), (1, 2, 0)))
-
-# Plot the fake images from the last epoch
-plt.subplot(1, 2, 2)
-plt.axis("off")
-plt.title("Fake Images")
-plt.imshow(np.transpose(img_list[-1], (1, 2, 0)))
-plt.show()
 
 ######################################################################
 # Where to Go Next
