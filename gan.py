@@ -90,7 +90,7 @@ ngf = 64
 ndf = 64
 
 # Number of training epochs
-num_epochs = 5
+num_epochs = 50
 
 # Learning rate for optimizers
 lr = 0.0002
@@ -103,13 +103,16 @@ beta1 = 0.5
 
 parser = argparse.ArgumentParser()
 parser.add_argument("--sigma", type=float, default=1.)
-parser.add_argument("--figloc", type=str, default="figures")
+parser.add_argument("--saveloc", type=str, default="output")
 parser.add_argument("--ngpu", type=int, default=2)
+parser.add_argument("--datadir", type=str)
+
 
 args = parser.parse_args()
 
 ngpu = args.ngpu
 gen_noise_scale = args.sigma
+dataroot = os.path.join(args.datadir, "cifar10")
 ######################################################################
 # Data
 # ----
@@ -143,7 +146,7 @@ gen_noise_scale = args.sigma
 
 # We can use an image folder dataset the way we have it setup.
 # Create the dataset
-dataset = dset.CIFAR100(root=dataroot,
+dataset = dset.CIFAR10(root=dataroot,
                         transform=transforms.Compose([
                             transforms.Resize(image_size),
                             transforms.CenterCrop(image_size),
@@ -556,15 +559,8 @@ for epoch in range(num_epochs):
 # Below is a plot of D & G’s losses versus training iterations.
 #
 
-plt.figure(figsize=(10, 5))
-plt.title("Generator and Discriminator Loss During Training")
-plt.plot(G_losses, label="G")
-plt.plot(D_losses, label="D")
-plt.xlabel("iterations")
-plt.ylabel("Loss")
-plt.legend()
-plt.savefig(os.path.join(args.figloc, "{:3f}.pdf".format(args.sigma)))
 
+os.makedirs(args.saveloc, exist_ok=True)
 with open(os.path.join(args.saveloc,  "{:3f}.pk".format(args.sigma)), "wb") as fout:
     pkl.dump([D_losses, G_losses], fout)
 
