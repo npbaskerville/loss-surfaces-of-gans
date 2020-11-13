@@ -12,7 +12,7 @@ import argparse
 import os
 import pickle as pkl
 import random
-
+import numpy as np
 import matplotlib.pyplot as plt
 import torch.nn as nn
 import torch.optim as optim
@@ -155,6 +155,20 @@ dataset = dset.CIFAR10(root=dataroot,
                         ]),
                         download=True
                         )
+
+data_sum = 0
+data_sum_sqrs = 0
+N = 0
+
+for img, _ in dataset:
+    data_sum += img.sum()
+    data_sum_sqrs += (img**2).sum()
+    N += len(img.flatten())
+
+data_std = data_sum_sqrs.item()/N - (data_sum.item()/N)**2
+data_std = np.sqrt(data_std)
+print(data_std)
+gen_noise_scale = gen_noise_scale/data_std
 
 # Create the dataloader
 dataloader = torch.utils.data.DataLoader(dataset, batch_size=batch_size,
@@ -561,7 +575,7 @@ for epoch in range(num_epochs):
 
 
 os.makedirs(args.saveloc, exist_ok=True)
-with open(os.path.join(args.saveloc,  "{:3f}.pk".format(args.sigma)), "wb") as fout:
+with open(os.path.join(args.saveloc,  "{:.7f}.pk".format(args.sigma)), "wb") as fout:
     pkl.dump([D_losses, G_losses], fout)
 
 ######################################################################
