@@ -52,6 +52,7 @@ def log_determinant(x, x1, kappa=0.5, b=1, b1=1):
 
 
 def _goe_ldp_rate(u, E=np.sqrt(2)):
-    return np.nan_to_num(
-        np.abs(u) * np.sqrt(u ** 2 - E ** 2) / E ** 2 - np.log(np.abs(u) + np.sqrt(u ** 2 - E ** 2)) + np.log(E),
-        nan=np.inf)
+    val = np.abs(u) * np.sqrt(u ** 2 - E ** 2) / E ** 2 - np.log(np.abs(u) + np.sqrt(u ** 2 - E ** 2)) + np.log(E)
+    if np.isnan(val):
+        val = np.inf
+    return val

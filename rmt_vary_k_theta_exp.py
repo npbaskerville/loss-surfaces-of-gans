@@ -32,8 +32,8 @@ kg = args.kg
 b, b1 = b_constants(p, q, sigma_z, kappa)
 max_x = np.sqrt(2 * (1 - kappa)) * b * 1.05
 
-x = np.linspace(-50, max_x, 10)
-x1 = np.linspace(-15, 50, 10)
+x = np.linspace(-500, max_x, 200)
+x1 = np.linspace(-15, 50, 100)
 x, x1 = np.meshgrid(x, x1)
 
 C = complexity_constant(p, q, sigma_z, kappa)
@@ -45,13 +45,7 @@ e = exp(x, x1)
 
 uD, uG, theta_vals = theta(x, x1, np.real(e), p, q)
 
-P, Q, R = integration_region(5, 0.5, p, q)
-in_domain = partial(in_integration_domain, P=P, Q=Q, R=R)
-
-save_vals = e.copy()
-in_dom = in_domain(x, x1)
-save_vals[~in_dom] = np.nan
 
 
 with open(args.out, "wb") as fout:
-    pkl.dump([kd, kg, save_vals], fout)
+    pkl.dump([kd, kg, theta_vals, uD, uG], fout)
