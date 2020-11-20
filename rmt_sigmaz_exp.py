@@ -26,8 +26,8 @@ q = args.q
 kappa = args.kappa
 sigma_z = args.sigma 
 
-x = np.linspace(-400, 25, 1000)
-x1 = np.linspace(-15, 10, 100)
+x = np.linspace(-1000, 25, 2000)
+x1 = np.linspace(-15, 40, 100)
 x, x1 = np.meshgrid(x, x1)
 
 b, b1 = b_constants(p, q, sigma_z, kappa)
