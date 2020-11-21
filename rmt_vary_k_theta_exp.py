@@ -1,5 +1,6 @@
 import argparse
 from functools import partial
+import os
 import pickle as pkl
 
 import numpy as np
@@ -46,6 +47,7 @@ e = exp(x, x1)
 uD, uG, theta_vals = theta(x, x1, np.real(e), p, q)
 
 
-
+the_dir = "/".join(args.out.split("/")[:-1])
+os.makedirs(the_dir, exist_ok=True)
 with open(args.out, "wb") as fout:
     pkl.dump([kd, kg, theta_vals, uD, uG], fout)
