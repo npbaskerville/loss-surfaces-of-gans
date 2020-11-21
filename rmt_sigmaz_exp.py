@@ -51,7 +51,11 @@ min_sum = None
 if uzs:
     min_sum = np.min(uzs)
 
+uzs = [np.abs(uD[Tp[0], Tp[1]] - uG[Tp[0], Tp[1]]) for Tp in Tps]
+max_diff = None
+if uzs:
+    max_diff = np.max(uzs)
 
 with open(args.out, "wb") as fout:
-    pkl.dump([sigma_z, min_uD, min_uG, min_sum], fout)
+    pkl.dump([sigma_z, min_uD, min_uG, min_sum, max_diff], fout)
 
