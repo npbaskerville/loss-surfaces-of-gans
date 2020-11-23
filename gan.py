@@ -83,11 +83,6 @@ nc = 3
 # Size of z latent vector (i.e. size of generator input)
 nz = 100
 
-# Size of feature maps in generator
-ngf = 64
-
-# Size of feature maps in discriminator
-ndf = 64
 
 # Number of training epochs
 num_epochs = 50
@@ -103,6 +98,7 @@ beta1 = 0.5
 
 parser = argparse.ArgumentParser()
 parser.add_argument("--sigma", type=float, default=1.)
+parser.add_argument("--kappa", type=float, default=0.5)
 parser.add_argument("--saveloc", type=str, default="output")
 parser.add_argument("--ngpu", type=int, default=2)
 parser.add_argument("--datadir", type=str)
@@ -112,6 +108,12 @@ args = parser.parse_args()
 
 ngpu = args.ngpu
 gen_noise_scale = args.sigma
+
+
+total_df = 128
+ndf = int(args.kappa*total_df)
+ngf = total_df - ndf
+
 dataroot = os.path.join(args.datadir, "cifar10")
 ######################################################################
 # Data
