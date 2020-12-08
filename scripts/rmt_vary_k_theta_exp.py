@@ -2,12 +2,14 @@ import argparse
 from functools import partial
 import os
 import pickle as pkl
+import sys
 
 import numpy as np
 
-from complexity import theta, in_integration_domain
-from constants import b_constants, univariate_gaussian_variances, complexity_constant, integration_region
-from coulomb import log_complexity_exponent_index
+sys.path.append("../")
+from rmt.complexity import theta, in_integration_domain
+from rmt.constants import b_constants, univariate_gaussian_variances, complexity_constant, integration_region
+from rmt.coulomb import log_complexity_exponent_index
 
 
 parser = argparse.ArgumentParser()

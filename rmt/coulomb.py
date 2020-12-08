@@ -2,7 +2,7 @@ from functools import partial
 import numpy as np
 from scipy.integrate import quad
 
-from spectrum import density, support
+from .spectrum import density, support
 
 
 def log_complexity_exponent(x, x1, kappa=0.5, b=1, b1=1, s_sq=1, s1_sq=1, constant=1):

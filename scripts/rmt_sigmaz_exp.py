@@ -3,11 +3,13 @@ from functools import partial
 import numpy as np
 from tqdm import tqdm 
 import pickle as pkl
+import sys 
 
-from complexity import theta, in_integration_domain
-from constants import b_constants, univariate_gaussian_variances, complexity_constant, integration_region
-from coulomb import log_complexity_exponent, log_determinant
-from spectrum import density, support
+sys.path.append("../")
+from rmt.complexity import theta, in_integration_domain
+from rmt.constants import b_constants, univariate_gaussian_variances, complexity_constant, integration_region
+from rmt.coulomb import log_complexity_exponent, log_determinant
+from rmt.spectrum import density, support
 
 parser = argparse.ArgumentParser()
 

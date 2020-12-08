@@ -1,7 +1,7 @@
 from functools import partial
 import numpy as np
 
-from constants import integration_region
+from .constants import integration_region
 
 
 def in_integration_domain(x, x1, P=1, Q=1, R=1):
