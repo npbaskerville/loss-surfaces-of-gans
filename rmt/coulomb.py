@@ -51,7 +51,7 @@ def log_determinant(x, x1, kappa=0.5, b=1, b1=1):
     # The support function does a good job of estimating the support of the LSD for the purposes of plotting but
     # it can sometimes miss small section at the edge, which leads to surprisingly large errors in this calculation.
     # We remedy this by inflating the integration region safely well beyond the LSD support.
-    return quad(quad_func, 3*limits[0], 3*limits[1])[0]
+    return quad(quad_func, -5*abs(limits[0]), 5*abs(limits[1]))[0]
 
 
 def _goe_ldp_rate(u, E=np.sqrt(2)):
