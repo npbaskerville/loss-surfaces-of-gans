@@ -102,6 +102,7 @@ parser.add_argument("--kappa", type=float, default=0.5)
 parser.add_argument("--saveloc", type=str, default="output")
 parser.add_argument("--ngpu", type=int, default=2)
 parser.add_argument("--datadir", type=str)
+parser.add_argument("--name", type=str, choices=["kappa", "sigma"], default="sigma")
 
 
 args = parser.parse_args()
@@ -577,7 +578,8 @@ for epoch in range(num_epochs):
 
 
 os.makedirs(args.saveloc, exist_ok=True)
-with open(os.path.join(args.saveloc,  "{:.7f}.pk".format(args.sigma)), "wb") as fout:
+name = args.kappa if args.name=='kappa' else args.sigma
+with open(os.path.join(args.saveloc,  "{:.7f}.pk".format(name)), "wb") as fout:
     pkl.dump([D_losses, G_losses], fout)
 
 ######################################################################

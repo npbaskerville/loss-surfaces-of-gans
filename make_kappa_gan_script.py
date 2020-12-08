@@ -28,12 +28,12 @@ cd /home/jr19127/loss-surfaces-of-gans
 # PBS ARRAY INDEX is 1-up, but bash arrays are 0-up, so leading pad with -1
 
 kappas=({})
-N_SIGMAS={}
+N_KAPPAS={}
 N_REPS={}
 
 
 # Execute code
-python gan.py --kappa ${{kappas[$(( ($PBS_ARRAY_INDEX-1) % $N_SIGMAS ))]}} --saveloc $WORK/gan-loss-surfaces/vary_kappa_dcgan_cifar10/results_$(( ($PBS_ARRAY_INDEX-1) / $N_SIGMAS)) --datadir /tmp
+python gan.py --kappa ${{kappas[$(( ($PBS_ARRAY_INDEX-1) % $N_KAPPAS ))]}} --saveloc $WORK/gan-loss-surfaces/vary_kappa_dcgan_cifar10/results_$(( ($PBS_ARRAY_INDEX-1) / $N_KAPPAS)) --datadir /tmp --name  kappa
 """
 
 kappa_str = " ".join(["{:.5f}".format(s) for s in kappas])

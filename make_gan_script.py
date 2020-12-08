@@ -33,7 +33,7 @@ N_REPS={}
 
 
 # Execute code
-python gan.py --sigma ${{sigmas[$(( ($PBS_ARRAY_INDEX-1) % $N_SIGMAS ))]}} --saveloc $WORK/gan-loss-surfaces/vary_sigma_dcgan_cifar10/results_$(( ($PBS_ARRAY_INDEX-1) / $N_SIGMAS)) --datadir /tmp
+python gan.py --sigma ${{sigmas[$(( ($PBS_ARRAY_INDEX-1) % $N_SIGMAS ))]}} --saveloc $WORK/gan-loss-surfaces/vary_sigma_dcgan_cifar10/results_$(( ($PBS_ARRAY_INDEX-1) / $N_SIGMAS)) --datadir /tmp --name sigma
 """
 
 sigma_str = " ".join(["{:.7f}".format(s) for s in sigmas])
