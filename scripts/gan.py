@@ -3,6 +3,38 @@
 Adapted from:
 
 DCGAN Tutorial, `Nathan Inkawhich <https://github.com/inkawhich>`
+
+BSD-3 repeated from https://github.com/pytorch/tutorials/blob/master/beginner_source/dcgan_faces_tutorial.py
+
+BSD 3-Clause License
+
+Copyright (c) 2017, Pytorch contributors
+All rights reserved.
+
+Redistribution and use in source and binary forms, with or without
+modification, are permitted provided that the following conditions are met:
+
+* Redistributions of source code must retain the above copyright notice, this
+  list of conditions and the following disclaimer.
+
+* Redistributions in binary form must reproduce the above copyright notice,
+  this list of conditions and the following disclaimer in the documentation
+  and/or other materials provided with the distribution.
+
+* Neither the name of the copyright holder nor the names of its
+  contributors may be used to endorse or promote products derived from
+  this software without specific prior written permission.
+
+THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS"
+AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
+IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE
+DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT HOLDER OR CONTRIBUTORS BE LIABLE
+FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL
+DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR
+SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER
+CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY,
+OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
+OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 """
 
 from __future__ import print_function
@@ -119,36 +151,7 @@ dataroot = os.path.join(args.datadir, "cifar10")
 ######################################################################
 # Data
 # ----
-#
-# In this tutorial we will use the `Celeb-A Faces
-# dataset <http://mmlab.ie.cuhk.edu.hk/projects/CelebA.html>`__ which can
-# be downloaded at the linked site, or in `Google
-# Drive <https://drive.google.com/drive/folders/0B7EVK8r0v71pTUZsaXdaSnZBZzg>`__.
-# The dataset will download as a file named *img_align_celeba.zip*. Once
-# downloaded, create a directory named *celeba* and extract the zip file
-# into that directory. Then, set the *dataroot* input for this notebook to
-# the *celeba* directory you just created. The resulting directory
-# structure should be:
-#
-# ::
-#
-#    /path/to/celeba
-#        -> img_align_celeba
-#            -> 188242.jpg
-#            -> 173822.jpg
-#            -> 284702.jpg
-#            -> 537394.jpg
-#               ...
-#
-# This is an important step because we will be using the ImageFolder
-# dataset class, which requires there to be subdirectories in the
-# dataset’s root folder. Now, we can create the dataset, create the
-# dataloader, set the device to run on, and finally visualize some of the
-# training data.
-#
 
-# We can use an image folder dataset the way we have it setup.
-# Create the dataset
 dataset = dset.CIFAR10(root=dataroot,
                         transform=transforms.Compose([
                             transforms.Resize(image_size),
@@ -564,17 +567,8 @@ for epoch in range(num_epochs):
 ######################################################################
 # Results
 # -------
-#
-# Finally, lets check out how we did. Here, we will look at three
-# different results. First, we will see how D and G’s losses changed
-# during training. Second, we will visualize G’s output on the fixed_noise
-# batch for every epoch. And third, we will look at a batch of real data
-# next to a batch of fake data from G.
-#
-# **Loss versus training iteration**
-#
-# Below is a plot of D & G’s losses versus training iterations.
-#
+# Save the loss for D and G locally for later insepction.
+
 
 
 os.makedirs(args.saveloc, exist_ok=True)
@@ -582,27 +576,3 @@ name = args.kappa if args.name=='kappa' else args.sigma
 with open(os.path.join(args.saveloc,  "{:.7f}.pk".format(name)), "wb") as fout:
     pkl.dump([D_losses, G_losses], fout)
 
-######################################################################
-# **Visualization of G’s progression**
-#
-# Remember how we saved the generator’s output on the fixed_noise batch
-# after every epoch of training. Now, we can visualize the training
-# progression of G with an animation. Press the play button to start the
-# animation.
-#
-
-######################################################################
-# Where to Go Next
-# ----------------
-#
-# We have reached the end of our journey, but there are several places you
-# could go from here. You could:
-#
-# -  Train for longer to see how good the results get
-# -  Modify this model to take a different dataset and possibly change the
-#    size of the images and the model architecture
-# -  Check out some other cool GAN projects
-#    `here <https://github.com/nashory/gans-awesome-applications>`__
-# -  Create GANs that generate
-#    `music <https://deepmind.com/blog/wavenet-generative-model-raw-audio/>`__
-#
