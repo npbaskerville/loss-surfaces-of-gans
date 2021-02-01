@@ -9,7 +9,7 @@
 module load lang/cuda
 module load lang/python/anaconda/pytorch
 
-cd /home/jr19127/loss-surfaces-of-gans
+cd /home/jr19127/loss-surfaces-of-gans/scripts
 
 
 # PBS ARRAY INDEX is 1-up, but bash arrays are 0-up, so leading pad with -1
