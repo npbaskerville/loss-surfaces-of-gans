@@ -4,7 +4,7 @@ import numpy as np
 from tqdm import tqdm 
 import pickle as pkl
 import sys 
-
+import os
 sys.path.append("../")
 from rmt.complexity import theta, in_integration_domain
 from rmt.constants import b_constants, univariate_gaussian_variances, complexity_constant, integration_region

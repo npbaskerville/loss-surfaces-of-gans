@@ -1,5 +1,6 @@
 import argparse
 import numpy as np
+import os 
 
 parser = argparse.ArgumentParser()
 parser.add_argument("--min_kappa", type=float, default=0.05)
@@ -33,11 +34,12 @@ kappas=({})
 
 
 # Execute code
-python rmt_sigmaz_exp.py --kappa ${{kappas[$(( ($PBS_ARRAY_INDEX-1)  ))]}} --out $WORK/gan-loss-surfaces/rmt_results/vary_kappa/results_$(( ($PBS_ARRAY_INDEX-1))) --p {} --q {} --sigma {:.5f}
+python rmt_kappa_exp.py --kappa ${{kappas[$(( ($PBS_ARRAY_INDEX-1)  ))]}} --out {}/results_$(( ($PBS_ARRAY_INDEX-1))) --p {} --q {} --sigma {:.5f}
 """
-
+outdir = f"/work/jr19127/gan-loss-surfaces/rmt_results/vary_kappa/p{args.p}q{args.q}"
+os.makedirs(outdir, exist_ok=True)
 kappa_str = " ".join(["{:.5f}".format(s) for s in kappas])
-script = template.format(len(kappas), kappa_str, args.p, args.q, args.sigma)
+script = template.format(len(kappas), kappa_str, outdir,  args.p, args.q, args.sigma)
 
-with open("run_rmt_vary_kappa.sh", "w") as fout:
+with open(f"run_rmt_vary_kappa_p{args.p}q{args.q}.sh", "w") as fout:
     fout.write(script)

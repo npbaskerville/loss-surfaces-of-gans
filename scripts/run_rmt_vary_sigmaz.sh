@@ -9,7 +9,7 @@
 module load lang/cuda
 module load lang/python/anaconda/pytorch
 
-cd /home/jr19127/loss-surfaces-of-gans
+cd /home/jr19127/loss-surfaces-of-gans/scripts
 
 
 # PBS ARRAY INDEX is 1-up, but bash arrays are 0-up, so leading pad with -1
@@ -18,4 +18,4 @@ sigmas=(0.0000100 0.0000131 0.0000173 0.0000227 0.0000298 0.0000392 0.0000515 0.
 
 
 # Execute code
-python rmt_sigmaz_exp.py --sigma ${sigmas[$(( ($PBS_ARRAY_INDEX-1)  ))]} --out $WORK/gan-loss-surfaces/rmt_results/vary_sigma/results_$(( ($PBS_ARRAY_INDEX-1))) --p 5 --q 5 --kappa 0.5
+python rmt_sigmaz_exp.py --sigma ${sigmas[$(( ($PBS_ARRAY_INDEX-1)  ))]} --out $WORK/gan-loss-surfaces/rmt_results/vary_sigma/results_$(( ($PBS_ARRAY_INDEX-1))) --p 10 --q 10 --kappa 0.9

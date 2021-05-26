@@ -18,4 +18,4 @@ kappas=(0.05000 0.06837 0.08673 0.10510 0.12347 0.14184 0.16020 0.17857 0.19694 
 
 
 # Execute code
-python rmt_sigmaz_exp.py --kappa ${kappas[$(( ($PBS_ARRAY_INDEX-1)  ))]} --out $WORK/gan-loss-surfaces/rmt_results/vary_kappa/results_$(( ($PBS_ARRAY_INDEX-1))) --p 2 --q 2 --sigma 1.00000
+python rmt_kappa_exp.py --kappa ${kappas[$(( ($PBS_ARRAY_INDEX-1)  ))]} --out /work/jr19127/gan-loss-surfaces/rmt_results/vary_kappa/p5q3/results_$(( ($PBS_ARRAY_INDEX-1))) --p 5 --q 3 --sigma 1.00000

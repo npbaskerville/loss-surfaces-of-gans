@@ -574,5 +574,5 @@ for epoch in range(num_epochs):
 os.makedirs(args.saveloc, exist_ok=True)
 name = args.kappa if args.name=='kappa' else args.sigma
 with open(os.path.join(args.saveloc,  "{:.7f}.pk".format(name)), "wb") as fout:
-    pkl.dump([D_losses, G_losses], fout)
+    pkl.dump([D_losses, G_losses, np.transpose(img_list[-1],(1,2,0))], fout)
 

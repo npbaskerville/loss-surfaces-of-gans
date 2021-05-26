@@ -1,5 +1,6 @@
 import argparse
 import numpy as np
+import os
 
 parser = argparse.ArgumentParser()
 parser.add_argument("--min_sigma_mag", type=float, default=-5)
@@ -33,11 +34,14 @@ sigmas=({})
 
 
 # Execute code
-python rmt_sigmaz_exp.py --sigma ${{sigmas[$(( ($PBS_ARRAY_INDEX-1)  ))]}} --out $WORK/gan-loss-surfaces/rmt_results/vary_sigma/results_$(( ($PBS_ARRAY_INDEX-1))) --p {} --q {} --kappa {:.1f}
+python rmt_sigmaz_exp.py --sigma ${{sigmas[$(( ($PBS_ARRAY_INDEX-1)  ))]}} --out {}/results_$(( ($PBS_ARRAY_INDEX-1))) --p {} --q {} --kappa {:.1f}
 """
+outdir = f"/work/jr19127/gan-loss-surfaces/rmt_results/vary_sigma/p{args.p}q{args.q}"
+os.makedirs(outdir, exist_ok=True)
 
 sigma_str = " ".join(["{:.7f}".format(s) for s in sigmas])
-script = template.format(len(sigmas), sigma_str, args.p, args.q, args.kappa)
+script = template.format(len(sigmas), sigma_str, outdir,  args.p, args.q, args.kappa)
 
-with open("run_rmt_vary_sigmaz.sh", "w") as fout:
+with open(f"run_rmt_vary_sigmaz_p{args.p}q{args.q}.sh", "w") as fout:
     fout.write(script)
+
