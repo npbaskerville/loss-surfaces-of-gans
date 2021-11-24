@@ -20,13 +20,12 @@ kds = list(range(args.max_kd))
 kgs = list(range(args.max_kg))
 
 template = """
-
 #!/bin/bash
 
 #SBATCH --time=5-00:00:00
 #SBATCH --ntasks-per-node=1
 #SBATCH --mem=5G
-#PBS -J 1-{}
+#SBATCH -J 1-{}
 
 module load lang/cuda
 module load lang/python/anaconda/pytorch
