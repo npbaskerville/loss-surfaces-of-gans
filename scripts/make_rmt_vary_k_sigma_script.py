@@ -23,7 +23,6 @@ template = """
 #!/bin/bash
 
 sbatch << EOT
-
 #!/bin/sh
 #SBATCH --time=5-00:00:00
 #SBATCH --ntasks-per-node=1
