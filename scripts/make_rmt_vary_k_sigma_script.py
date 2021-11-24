@@ -56,7 +56,7 @@ kd_str = " ".join([str(kd) for kd in kds])
 kg_str = " ".join([str(kg) for kg in kgs])
 
 
-script_setup = template.format(len(sigmas), kd_str, kg_str)
+script_setup = template.format(len(kds), kd_str, kg_str)
 
 python_invocations = [python_invocation_template.format(sigma, outdir, sigma, args.p, args.q, args.kappa) for sigma in sigmas]
 
