@@ -23,7 +23,7 @@ template = """
 
 #!/bin/bash
 
-#SBATCH --time=2-00:00:00
+#SBATCH --time=0-10:00:00
 #SBATCH --ntasks-per-node=1
 #SBATCH --mem=5G
 #PBS -J 1-{}
@@ -36,28 +36,31 @@ cd /user/home/jr19127/loss-surfaces-of-gans/scripts
 
 # PBS ARRAY INDEX is 1-up, but bash arrays are 0-up, so leading pad with -1
 
-sigmas=({})
 kds=({})
 kgs=({})
 
-
 # Execute code
-python rmt_vary_k_theta_exp.py --sigma ${{sigmas[$(( ($SLURM_ARRAY_TASK_ID-1)  ))]}} --kd ${{kds[$(( ($SLURM_ARRAY_TASK_ID-1)  ))]}} --kg ${{kgs[$(( ($SLURM_ARRAY_TASK_ID-1)  ))]}} --out {}/results_$(( ($SLURM_ARRAY_TASK_ID-1))) --p {} --q {} --kappa {:.1f}
 """
+
+python_invocation_template = """
+python rmt_vary_k_theta_exp.py --sigma {:.7f} --kd ${{kds[$(( ($SLURM_ARRAY_TASK_ID-1)  ))]}} --kg ${{kgs[$(( ($SLURM_ARRAY_TASK_ID-1)  ))]}} --out {}/sigma{:.7f}/results_$(( ($SLURM_ARRAY_TASK_ID-1))) --p {} --q {} --kappa {:.1f}
+"""
+
 outdir = f"/user/work/jr19127/gan-loss-surfaces/rmt_results/vary_sigma/p{args.p}q{args.q}"
 os.makedirs(outdir, exist_ok=True)
 
-kds, kgs, sigmas = np.meshgrid(kds, kgs, sigmas)
+kds, kgs = np.meshgrid(kds, kgs)
 kds = kds.ravel()
 kgs = kgs.ravel()
-sigmas = sigmas.ravel()
 kd_str = " ".join([str(kd) for kd in kds])
 kg_str = " ".join([str(kg) for kg in kgs])
-sigma_str = " ".join(["{:.7f}".format(s) for s in sigmas])
 
 
-script = template.format(len(sigmas), sigma_str, kd_str, kg_str, outdir,  args.p, args.q, args.kappa)
+script_setup = template.format(len(sigmas), kd_str, kg_str)
+
+python_invocations = [python_invocation_template.format(sigma, outdir,  args.p, args.q, args.kappa) for sigma in sigmas]
 
 with open(f"run_rmt_vary_sigmaz_k.sh", "w") as fout:
-    fout.write(script)
-
+    fout.write(script_setup + "\n")
+    for python_invocation in python_invocations:
+        fout.write(python_invocation + "\n")
