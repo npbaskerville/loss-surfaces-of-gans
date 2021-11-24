@@ -58,7 +58,7 @@ kg_str = " ".join([str(kg) for kg in kgs])
 
 script_setup = template.format(len(sigmas), kd_str, kg_str)
 
-python_invocations = [python_invocation_template.format(sigma, outdir,  args.p, args.q, args.kappa) for sigma in sigmas]
+python_invocations = [python_invocation_template.format(sigma, outdir, sigma, args.p, args.q, args.kappa) for sigma in sigmas]
 
 with open(f"run_rmt_vary_sigmaz_k.sh", "w") as fout:
     fout.write(script_setup + "\n")
