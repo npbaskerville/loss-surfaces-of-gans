@@ -19,11 +19,8 @@ sigmas = np.logspace(args.min_sigma_mag, args.max_sigma_mag, args.n_sigma)
 kds = list(range(args.max_kd))
 kgs = list(range(args.max_kg))
 
-template = """
-#!/bin/bash
+template = """#!/bin/bash
 
-sbatch << EOT
-#!/bin/sh
 #SBATCH --time=5-00:00:00
 #SBATCH --ntasks-per-node=1
 #SBATCH --mem=5G
@@ -32,7 +29,7 @@ sbatch << EOT
 module load lang/cuda
 module load lang/python/anaconda/pytorch
 
-cd /user/home/jr19127/loss-surfaces-of-gans/scripts
+cd /user/work/jr19127/loss-surfaces-of-gans/scripts
 
 
 # PBS ARRAY INDEX is 1-up, but bash arrays are 0-up, so leading pad with -1
